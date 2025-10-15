@@ -67,6 +67,11 @@ services:
     environment:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
 
+  exchange:
+    build:
+      context: ./exchange
+      dockerfile: Dockerfile
+    hostname: exchange
 
   gateway:
     build:

@@ -1,0 +1,370 @@
+{
+    "id": "33081977-3ab1f3c5-b5de-4e0d-9c11-e113505cabf0",
+    "name": "pma252 - Gateway (Auth + Account + Product + Order + Exchange) [jwt field]",
+    "description": "Coleção via gateway (8080). Salva {{token}} a partir do campo `jwt` retornado pelo /auth. Inclui Order Service refatorado e Exchange Service.",
+    "requests": [
+      {
+        "id": "33081977-07ffc3ef-f65e-4f92-a9d4-11f25dcbdf1d",
+        "name": "Register",
+        "url": "{{baseUrl}}/auth/register",
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"ricardo\",\n  \"email\": \"ricardo@gmail.com\",\n  \"password\": \"123456\"\n}"
+        }
+      },
+      {
+        "id": "33081977-13628b60-bf9d-4a79-9270-61580ceb42ed",
+        "name": "Create Order (teste com produto inexistente)",
+        "url": "{{baseUrl}}/order",
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "33081977-1cd19a96-f785-4b2c-a878-89c1f378d6c4",
+        "name": "List products",
+        "url": "{{baseUrl}}/product",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "33081977-239084d0-1b32-4da4-a2bb-8b167f568c73",
+        "name": "Create product",
+        "url": "{{baseUrl}}/product",
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "33081977-23c340ab-4650-450e-a87b-1ec65620043e",
+        "name": "Create Order (teste sem items)",
+        "url": "{{baseUrl}}/order",
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "33081977-7989749c-f319-46f4-93b2-cc810485555a",
+        "name": "WhoAmI (header id-account)",
+        "url": "{{baseUrl}}/account/whoami",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "33081977-86fc3995-d7fe-4592-b9a4-58a3eec3dec5",
+        "name": "Get product by ID",
+        "url": "{{baseUrl}}/product/2f6a597d-4cbe-4073-aaae-cae2f16910e5",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "33081977-9bfb4167-0d30-4ade-935a-c791e8d7c0ff",
+        "name": "Get Order by ID (com detalhes completos)",
+        "url": "{{baseUrl}}/order/feb524dc-e8cc-46e5-b8e0-6c7adc16d73e",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "33081977-a64d4642-f6c3-429c-afdb-ac78c29f5174",
+        "name": "Login (salva {{token}} de data.jwt)",
+        "url": "{{baseUrl}}/auth/login",
+        "method": "POST",
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "exec": [
+                "if (pm.response.code === 200) {",
+                "    const response = pm.response.json();",
+                "    pm.environment.set('token', response.jwt);",
+                "    console.log('Token salvo:', response.jwt);",
+                "}"
+              ],
+              "type": "text/javascript"
+            }
+          }
+        ],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"ricardo@gmail.com\",\n  \"password\": \"123456\"\n}"
+        }
+      },
+      {
+        "id": "33081977-c7d1e258-d5dd-4c97-bcf6-ef8cb233a87b",
+        "name": "List Orders (do usuário logado)",
+        "url": "{{baseUrl}}/order",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "33081977-d09f1a71-1508-4098-9d39-5793408940fc",
+        "name": "Create Order (produto único)",
+        "url": "{{baseUrl}}/order",
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "33081977-ea3d940a-9ae5-47a8-8922-e002787b05bf",
+        "name": "List accounts",
+        "url": "{{baseUrl}}/account",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "exchange-001",
+        "name": "Exchange Health Check",
+        "url": "{{baseUrl}}/health",
+        "method": "GET"
+      },
+      {
+        "id": "exchange-002",
+        "name": "Exchange USD to EUR",
+        "url": "{{baseUrl}}/exchange/USD/EUR",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "exchange-003",
+        "name": "Exchange USD to BRL",
+        "url": "{{baseUrl}}/exchange/USD/BRL",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "exchange-004",
+        "name": "Exchange EUR to USD",
+        "url": "{{baseUrl}}/exchange/EUR/USD",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "exchange-005",
+        "name": "Exchange BRL to USD",
+        "url": "{{baseUrl}}/exchange/BRL/USD",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "exchange-006",
+        "name": "Exchange GBP to EUR",
+        "url": "{{baseUrl}}/exchange/GBP/EUR",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "exchange-007",
+        "name": "Exchange without token (should fail)",
+        "url": "{{baseUrl}}/exchange/USD/EUR",
+        "method": "GET"
+      },
+      {
+        "id": "exchange-008",
+        "name": "Exchange with invalid token (should fail)",
+        "url": "{{baseUrl}}/exchange/USD/EUR",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer token-invalido"
+          }
+        ]
+      },
+      {
+        "id": "exchange-009",
+        "name": "Exchange invalid currency format (should fail)",
+        "url": "{{baseUrl}}/exchange/US/EUR",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      },
+      {
+        "id": "exchange-010",
+        "name": "Exchange same currency (should fail)",
+        "url": "{{baseUrl}}/exchange/USD/USD",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      }
+    ],
+    "folders": [
+      {
+        "id": "33081977-9681ff25-481d-459f-add7-25160fcd398c",
+        "name": "Order",
+        "order": [
+          "33081977-d09f1a71-1508-4098-9d39-5793408940fc",
+          "33081977-c7d1e258-d5dd-4c97-bcf6-ef8cb233a87b",
+          "33081977-9bfb4167-0d30-4ade-935a-c791e8d7c0ff",
+          "33081977-13628b60-bf9d-4a79-9270-61580ceb42ed",
+          "33081977-23c340ab-4650-450e-a87b-1ec65620043e"
+        ]
+      },
+      {
+        "id": "33081977-adee6197-a804-4025-baab-e42b55c08188",
+        "name": "Account",
+        "order": [
+          "33081977-ea3d940a-9ae5-47a8-8922-e002787b05bf",
+          "33081977-7989749c-f319-46f4-93b2-cc810485555a"
+        ]
+      },
+      {
+        "id": "33081977-d8190ef0-a82a-4578-9ab0-d2507d6959a5",
+        "name": "Product",
+        "order": [
+          "33081977-1cd19a96-f785-4b2c-a878-89c1f378d6c4",
+          "33081977-239084d0-1b32-4da4-a2bb-8b167f568c73",
+          "33081977-86fc3995-d7fe-4592-b9a4-58a3eec3dec5"
+        ]
+      },
+      {
+        "id": "33081977-df1e1961-483a-44b2-99b3-b2cf52626b6e",
+        "name": "Auth",
+        "order": [
+          "33081977-07ffc3ef-f65e-4f92-a9d4-11f25dcbdf1d",
+          "33081977-a64d4642-f6c3-429c-afdb-ac78c29f5174"
+        ]
+      },
+      {
+        "id": "exchange-folder",
+        "name": "Exchange",
+        "order": [
+          "exchange-001",
+          "exchange-002",
+          "exchange-003",
+          "exchange-004",
+          "exchange-005",
+          "exchange-006"
+        ]
+      },
+      {
+        "id": "exchange-tests-folder",
+        "name": "Exchange Tests (Error Cases)",
+        "order": [
+          "exchange-007",
+          "exchange-008",
+          "exchange-009",
+          "exchange-010"
+        ]
+      }
+    ],
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "http://localhost:8080",
+        "type": "string"
+      },
+      {
+        "key": "token",
+        "value": "",
+        "type": "string"
+      }
+    ]
+  }
